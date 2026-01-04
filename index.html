@@ -3,161 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MNPS Dashboard Final</title>
+    <title>MNPS Final Dashboard</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .mobile-card { background: white; width: 100%; max-width: 450px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); padding: 25px; box-sizing: border-box; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .mobile-card { background: white; width: 100%; max-width: 400px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); padding: 20px; text-align: center; position: relative; }
+        
         .profile-icon { width: 70px; height: 70px; background-color: #007bff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; position: relative; }
         .profile-icon::before { content: ""; width: 22px; height: 22px; background: white; border-radius: 50%; position: absolute; top: 12px; }
         .profile-icon::after { content: ""; width: 40px; height: 20px; background: white; border-radius: 20px 20px 0 0; position: absolute; bottom: 10px; }
-        .branding { font-weight: bold; color: #004a99; font-size: 16px; margin-bottom: 15px; border-top: 1px solid #eee; padding-top: 10px; }
-        .btn-blue { background-color: #007bff; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-black { background-color: #333; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-submit { background-color: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        .details-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; font-size: 14px; margin-top:10px; }
-        .details-list p { margin: 8px 0; border-bottom: 1px solid #eee; padding-bottom: 4px; display: flex; justify-content: space-between; flex-wrap: wrap; }
-        .last-update-red { color: #ff0000 !important; font-weight: bold; }
-        .summary-container { text-align: left; max-height: 400px; overflow-y: auto; margin-top: 15px; border: 1px solid #eee; border-radius: 8px; }
+
+        /* Success Animation */
+        .success-checkmark { width: 80px; height: 80px; margin: 0 auto 20px; background: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: scaleUp 0.5s ease-in-out; }
+        .checkmark-icon { color: white; font-size: 50px; font-weight: bold; }
+        @keyframes scaleUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        .spinner { display: none; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .btn-blue { background: #007bff; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-black { background: #333; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-view { background: #007bff; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; }
+        
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .details-list { text-align: left; background: #f9f9f9; padding: 15px; border-radius: 10px; font-size: 14px; margin-top: 10px; border: 1px solid #eee; }
+        .details-list p { margin: 8px 0; border-bottom: 1px solid #eee; padding-bottom: 4px; display: flex; justify-content: space-between; gap: 10px; }
+        .red-text { color: #ff0000; font-weight: bold; }
+        .italic-sub { font-style: italic; color: #666; font-size: 14px; margin-bottom: 15px; display: block; }
+        .dev-text { font-style: italic; color: #888; font-size: 12px; margin-top: 25px; display: block; }
+        
+        .summary-container { text-align: left; max-height: 350px; overflow-y: auto; margin-top: 15px; border: 1px solid #eee; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th, td { border: 1px solid #eee; padding: 8px; text-align: left; }
-        th { background: #f8f9fa; position: sticky; top: 0; }
-        .loading { display:none; color: #007bff; font-weight: bold; margin: 10px 0; }
+        th { background: #f8f9fa; position: sticky; top: 0; z-index: 1; }
     </style>
 </head>
 <body>
 
-    <div class="mobile-card">
-        <div id="step1">
-            <div class="profile-icon"></div>
-            <h2>Welcome To MNPS Dashboard</h2>
-            <div class="branding">MPPKVVCL-NANDNI</div>
-            <button class="btn-blue" onclick="showStep(2)">Get Now</button>
-            <div style="margin-top: 25px; border: 1px dashed #ccc; padding: 15px; border-radius: 10px; background: #fafafa;">
-                <p style="margin:0; font-weight:bold; color:#555;">Admin Login</p>
-                <input type="password" id="adminPass" placeholder="Enter Password">
-                <button class="btn-black" onclick="checkAdminLogin()">Login</button>
-            </div>
+<div class="mobile-card">
+    <div id="step1">
+        <div class="profile-icon"></div>
+        <h2 style="color:#004a99; margin-bottom:5px;">Welcome To MNPS Dashboard</h2>
+        <span class="italic-sub">Mobile No. Punching System</span>
+        <p style="font-weight: bold; color: #555;">MPPKVVCL-NANDNI</p>
+        <button class="btn-blue" onclick="showStep(2)">Get Now</button>
+        
+        <div style="margin-top:25px; padding:15px; border:1px dashed #ccc; border-radius: 10px; background: #fafafa;">
+            <p style="margin:0; font-weight:bold; color:#555;">Admin Login</p>
+            <input type="password" id="adminPass" placeholder="Enter Password">
+            <button class="btn-black" onclick="adminLogin()">Login</button>
         </div>
+        <span class="dev-text">❤️Developed by VINOD</span>
+    </div>
 
-        <div id="adminPanel" style="display:none;">
-            <h3>Entries Summary Records</h3>
-            <input type="text" id="adminSearch" onkeyup="filterSummary()" placeholder="Search Consumer No...">
-            <div style="display: flex; gap: 10px;">
-                <button class="btn-blue" onclick="refreshAdminData()">Refresh</button>
-                <button class="btn-black" onclick="location.reload()">Back</button>
-            </div>
-            <div class="summary-container">
-                <table id="adminTable">
-                    <thead><tr><th>Cons No</th><th>Mobile</th><th>User</th><th>Time</th></tr></thead>
-                    <tbody id="summaryBody"></tbody>
-                </table>
-            </div>
-        </div>
+    <div id="step2" style="display:none;">
+        <h3>Enter Consumer No</h3>
+        <input type="number" id="consInput" placeholder="Consumer No.">
+        <div id="loader" class="spinner"></div>
+        <button class="btn-blue" id="searchBtn" onclick="fetchData()">Get Details</button>
+        <button class="btn-black" onclick="showStep(1)">Back</button>
+    </div>
 
-        <div id="step2" style="display:none;">
-            <h3>Enter Consumer NO</h3>
-            <input type="number" id="consInput" placeholder="Consumer Number Likhein">
-            <div id="loader" class="loading">Searching...</div>
-            <button class="btn-blue" onclick="getDataFromSheet()">Get Now</button>
-            <button class="btn-black" onclick="showStep(1)">Back</button>
-        </div>
-
-        <div id="step3" style="display:none;">
-            <div class="details-list" id="detailsArea"></div>
+    <div id="step3" style="display:none;">
+        <h3 style="margin-bottom: 5px; color: #000;">Consumer Details</h3>
+        <div id="detailsArea" class="details-list"></div>
+        
+        <div id="userActions">
             <button class="btn-blue" onclick="showStep(4)">Update Mobile No</button>
             <button class="btn-black" onclick="showStep(2)">Back</button>
         </div>
-
-        <div id="step4" style="display:none;">
-            <h3>Update Information</h3>
-            <input type="number" id="new_mob" placeholder="10 digit mobile no" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
-            <input type="text" id="u_name" placeholder="User Name (Mandatory)">
-            <div id="saveLoader" class="loading">Saving...</div>
-            <button class="btn-submit" onclick="saveDataToSheet()">Submit</button>
-        </div>
-
-        <div id="step5" style="display:none;">
-            <div style="background:#28a745; color:white; width:50px; height:50px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-size:25px;">✓</div>
-            <p style="font-weight:bold;">Data Saved Successfully</p>
-            <button class="btn-blue" onclick="location.reload()">Back to Home</button>
+        <div id="adminActions" style="display:none;">
+            <button class="btn-black" onclick="showStep('adminPanel')">Back</button>
         </div>
     </div>
 
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxNiyYMSXZc-A7Gk1084TQ16aFdvX_ccRa7i6acf4zgQIaCb-V5Z-04f_PWvcxGIS6JyQ/exec";
-        let currentConsumer = "";
+    <div id="step4" style="display:none;">
+        <h3>Update Information</h3>
+        <input type="number" id="newMob" placeholder="10 Digit Mobile No">
+        <input type="text" id="userName" placeholder="User Name (Update By User)">
+        <div id="updateLoader" class="spinner"></div>
+        <button class="btn-blue" id="submitBtn" onclick="submitUpdate()">Update Now</button>
+        <button class="btn-black" onclick="showStep(3)">Back</button>
+    </div>
 
-        function showStep(s) {
-            document.querySelectorAll('.mobile-card > div').forEach(d => d.style.display='none');
-            const target = s === 'adminPanel' ? 'adminPanel' : 'step'+s;
-            document.getElementById(target).style.display='block';
-        }
+    <div id="step5" style="display:none;">
+        <div class="success-checkmark"><span class="checkmark-icon">✓</span></div>
+        <h2 style="color:#28a745;">Data Saved Successfully</h2>
+        <button class="btn-black" onclick="location.reload()">Back to Home</button>
+    </div>
 
-        async function getDataFromSheet() {
-            let id = document.getElementById('consInput').value;
-            if(!id) return alert("Consumer No. bharein");
-            document.getElementById('loader').style.display = 'block';
-            try {
-                const response = await fetch(`${SCRIPT_URL}?consNo=${id}`);
-                const data = await response.json();
-                if(data.found) {
-                    currentConsumer = id;
-                    document.getElementById('detailsArea').innerHTML = `
-                        <p><b>Consumer No. -</b> ${data.no}</p>
-                        <p><b>Name -</b> ${data.name}</p>
-                        <p><b>Village -</b> ${data.village}</p>
-                        <p><b>FOC -</b> ${data.foc}</p>
-                        <p><b>Type -</b> ${data.type}</p>
-                        <p><b>Existing Mobile -</b> ${data.old_mob}</p>
-                        <p class="last-update-red"><b>Last Update Mobile -</b> ${data.last_mob || 'N/A'}</p>
-                        <p class="last-update-red"><b>Update Time -</b> ${data.last_time || 'N/A'}</p>
-                        <p class="last-update-red"><b>Update User -</b> ${data.last_user || 'N/A'}</p>
-                        <p><b>Status -</b> <span style="color:green; font-weight:bold;">${data.status}</span></p>`;
-                    showStep(3);
-                } else { alert("Consumer Not Found!"); }
-            } catch (e) { alert("Error connecting to sheet!"); }
-            finally { document.getElementById('loader').style.display = 'none'; }
-        }
+    <div id="adminPanel" style="display:none;">
+        <h3>MNPS Summary Records</h3>
+        <input type="text" id="adminSearch" onkeyup="filterSummary()" placeholder="Search Consumer No...">
+        <div id="adminViewLoader" class="spinner"></div>
+        <div class="summary-container">
+            <table id="adminTable">
+                <thead><tr><th>Cons No</th><th>User</th><th>Time</th><th>Action</th></tr></thead>
+                <tbody id="summaryBody"></tbody>
+            </table>
+        </div>
+        <button class="btn-black" onclick="location.reload()" style="margin-top:10px;">Back</button>
+    </div>
+</div>
 
-        async function saveDataToSheet() {
-            const mob = document.getElementById('new_mob').value;
-            const user = document.getElementById('u_name').value;
-            if(mob.length !== 10 || user.trim() === "") return alert("Sahi 10-digit mobile aur name bharein");
-            document.getElementById('saveLoader').style.display = 'block';
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({consNo: currentConsumer, newMob: mob, userName: user}) });
-                showStep(5);
-            } catch (e) { alert("Save failed!"); }
-            finally { document.getElementById('saveLoader').style.display = 'none'; }
-        }
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6XxyTSXsenaXxvTkw5zahRBYybl9DJoB7PTabDpIsyrkZkbPHTWZjJJvainuOmSXIVg/exec";
+    let isAdminViewing = false;
 
-        function checkAdminLogin() {
-            if(document.getElementById('adminPass').value === "mnps78") { showStep('adminPanel'); refreshAdminData(); }
-            else alert("Galat Password!");
+    function showStep(s) {
+        document.querySelectorAll('.mobile-card > div').forEach(d => d.style.display='none');
+        const target = (s === 'adminPanel') ? 'adminPanel' : 'step'+s;
+        document.getElementById(target).style.display = 'block';
+        
+        if(s === 3) {
+            document.getElementById('userActions').style.display = isAdminViewing ? 'none' : 'block';
+            document.getElementById('adminActions').style.display = isAdminViewing ? 'block' : 'none';
         }
+    }
 
-        async function refreshAdminData() {
-            let tbody = document.getElementById('summaryBody');
-            tbody.innerHTML = "<tr><td colspan='4'>Loading Records...</td></tr>";
-            try {
-                const res = await fetch(`${SCRIPT_URL}?action=getAll`);
-                const data = await res.json();
-                tbody.innerHTML = "";
-                data.forEach(row => {
-                    tbody.innerHTML += `<tr><td>${row.no}</td><td>${row.mob}</td><td>${row.user}</td><td>${row.date}</td></tr>`;
-                });
-            } catch (e) { tbody.innerHTML = "<tr><td colspan='4'>No records found.</td></tr>"; }
-        }
+    async function fetchData(manualId = null) {
+        const id = manualId || document.getElementById('consInput').value;
+        if(!id) return alert("Pehle Consumer No. bharein");
 
-        function filterSummary() {
-            let input = document.getElementById("adminSearch").value.toUpperCase();
-            let tr = document.getElementById("adminTable").getElementsByTagName("tr");
-            for (let i = 1; i < tr.length; i++) {
-                let txt = tr[i].innerText.toUpperCase();
-                tr[i].style.display = txt.includes(input) ? "" : "none";
-            }
+        isAdminViewing = manualId ? true : false;
+        const activeLoader = manualId ? 'adminViewLoader' : 'loader';
+        document.getElementById(activeLoader).style.display = 'block';
+
+        try {
+            const res = await fetch(`${SCRIPT_URL}?consNo=${id}`);
+            const data = await res.json();
+            if(data.found) {
+                const statusColor = data.status.toUpperCase() === "INACTIVE" ? "red" : "green";
+                document.getElementById('detailsArea').innerHTML = `
+                    <p><b>Consumer No -</b> <span>${data.no}</span></p>
+                    <p><b>Name -</b> <span>${data.name}</span></p>
+                    <p><b>Village Name -</b> <span>${data.village}</span></p>
+                    <p><b>FOC Name -</b> <span>${data.foc}</span></p>
+                    <p><b>Connection Type -</b> <span>${data.type}</span></p>
+                    <p><b>Existing Mobile No -</b> <span>${data.old_mob}</span></p>
+                    <p class="red-text"><b>Last Update Mobile No -</b> <span>${data.last_mob || 'N/A'}</span></p>
+                    <p class="red-text"><b>Update Time -</b> <span>${data.last_time || 'N/A'}</span></p>
+                    <p class="red-text"><b>Update By User -</b> <span>${data.last_user || 'N/A'}</span></p>
+                    <p><b>Connection Status -</b> <span style="color:${statusColor}; font-weight:bold;">${data.status}</span></p>
+                `;
+                showStep(3);
+            } else { alert("Consumer Not Found!"); }
+        } catch(e) { alert("Server Connection Error!"); }
+        finally { document.getElementById(activeLoader).style.display = 'none'; }
+    }
+
+    async function submitUpdate() {
+        const id = document.getElementById('consInput').value;
+        const mob = document.getElementById('newMob').value;
+        const user = document.getElementById('userName').value;
+        if(mob.length !== 10) return alert("Please Enter 10 Digits Valid Mobile No");
+        document.getElementById('updateLoader').style.display = 'block';
+        try {
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({consNo: id, newMob: mob, userName: user}) });
+            showStep(5);
+        } catch(e) { alert("Save Failed!"); }
+        finally { document.getElementById('updateLoader').style.display = 'none'; }
+    }
+
+    function adminLogin() {
+        if(document.getElementById('adminPass').value === "mnps78") {
+            showStep('adminPanel');
+            loadAdminData();
+        } else { alert("Wrong Password!"); }
+    }
+
+    async function loadAdminData() {
+        let tbody = document.getElementById('summaryBody');
+        tbody.innerHTML = "<tr><td colspan='4'>Loading Records...</td></tr>";
+        try {
+            const res = await fetch(`${SCRIPT_URL}?action=getAll`);
+            const data = await res.json();
+            tbody.innerHTML = "";
+            data.forEach(r => {
+                tbody.innerHTML += `<tr>
+                    <td>${r.no}</td>
+                    <td>${r.user}</td>
+                    <td>${r.date}</td>
+                    <td><button class="btn-view" onclick="fetchData('${r.no}')">View</button></td>
+                </tr>`;
+            });
+        } catch(e) { tbody.innerHTML = "<tr><td colspan='4'>No Records Found.</td></tr>"; }
+    }
+
+    function filterSummary() {
+        let input = document.getElementById("adminSearch").value.toUpperCase();
+        let tr = document.getElementById("adminTable").getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            tr[i].style.display = tr[i].innerText.toUpperCase().includes(input) ? "" : "none";
         }
-    </script>
+    }
+</script>
 </body>
 </html>
