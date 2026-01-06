@@ -3,37 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MNPS Final Dashboard</title>
+    <title>MNPS Professional Dashboard</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .mobile-card { background: white; width: 100%; max-width: 400px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); padding: 20px; text-align: center; position: relative; }
-        
-        .profile-icon { width: 70px; height: 70px; background-color: #007bff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; position: relative; }
-        .profile-icon::before { content: ""; width: 22px; height: 22px; background: white; border-radius: 50%; position: absolute; top: 12px; }
-        .profile-icon::after { content: ""; width: 40px; height: 20px; background: white; border-radius: 20px 20px 0 0; position: absolute; bottom: 10px; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 15px; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
 
-        /* Success Animation */
-        .success-checkmark { width: 80px; height: 80px; margin: 0 auto 20px; background: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: scaleUp 0.5s ease-in-out; }
-        .checkmark-icon { color: white; font-size: 50px; font-weight: bold; }
-        @keyframes scaleUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        .mobile-card { 
+            background: rgba(255, 255, 255, 0.98); 
+            width: 100%; max-width: 400px; 
+            border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            padding: 20px; text-align: center; 
+        }
 
-        .spinner { display: none; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
+        .profile-icon { 
+            width: 70px; height: 70px; background: #007bff; border-radius: 50%; 
+            margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; 
+            position: relative; animation: pulse-blue 2s infinite;
+        }
+        @keyframes pulse-blue {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+
         .btn-blue { background: #007bff; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-green { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-black { background: #333; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-view { background: #007bff; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; }
         
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .btn-view { background: #007bff; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        
         .details-list { text-align: left; background: #f9f9f9; padding: 15px; border-radius: 10px; font-size: 14px; margin-top: 10px; border: 1px solid #eee; }
         .details-list p { margin: 8px 0; border-bottom: 1px solid #eee; padding-bottom: 4px; display: flex; justify-content: space-between; gap: 10px; }
         .red-text { color: #ff0000; font-weight: bold; }
-        .italic-sub { font-style: italic; color: #666; font-size: 14px; margin-bottom: 15px; display: block; }
-        .dev-text { font-style: italic; color: #888; font-size: 12px; margin-top: 25px; display: block; }
         
-        .summary-container { text-align: left; max-height: 350px; overflow-y: auto; margin-top: 15px; border: 1px solid #eee; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th, td { border: 1px solid #eee; padding: 8px; text-align: left; }
+        /* Spinners */
+        .spinner { display: none; width: 35px; height: 35px; border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; margin: 10px auto; }
+        .btn-spinner { display: none; width: 12px; height: 12px; border: 2px solid #fff; border-top: 2px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .success-checkmark { width: 80px; height: 80px; background: #28a745; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px; animation: successScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes successScale { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .summary-container { text-align: left; max-height: 250px; overflow-y: auto; margin-top: 10px; border: 1px solid #eee; border-radius: 8px; background: white; }
+        table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        th, td { border: 1px solid #eee; padding: 6px; text-align: left; }
         th { background: #f8f9fa; position: sticky; top: 0; z-index: 1; }
     </style>
 </head>
@@ -41,67 +63,83 @@
 
 <div class="mobile-card">
     <div id="step1">
-        <div class="profile-icon"></div>
-        <h2 style="color:#004a99; margin-bottom:5px;">Welcome To MNPS Dashboard</h2>
-        <span class="italic-sub">Mobile No. Punching System</span>
-        <p style="font-weight: bold; color: #555;">MPPKVVCL-NANDNI</p>
-        <button class="btn-blue" onclick="showStep(2)">Get Now</button>
-        
-        <div style="margin-top:25px; padding:15px; border:1px dashed #ccc; border-radius: 10px; background: #fafafa;">
-            <p style="margin:0; font-weight:bold; color:#555;">Admin Login</p>
-            <input type="password" id="adminPass" placeholder="Enter Password">
-            <button class="btn-black" onclick="adminLogin()">Login</button>
+        <div class="profile-icon">
+             <svg width="35" height="35" viewBox="0 0 24 24" fill="white"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
         </div>
-        <span class="dev-text">❤️Developed by VINOD</span>
+        <h2 style="color:#004a99; margin-bottom:5px;">Welcome To MNPS Dashboard</h2>
+        <span style="font-style:italic; color:#666; font-size:14px; display:block; margin-bottom:5px;">Mobile No. Punching System</span>
+        <p style="font-weight: bold; color: #555; margin-bottom:15px;">MPPKVVCL-NANDNI</p>
+        
+        <button class="btn-blue" onclick="showStep(2)">Get Now</button>
+
+        <div style="margin-top:15px; padding:12px; border:1px dashed #007bff; border-radius: 10px; background: #f0f7ff;">
+            <input type="text" id="quickSearchInput" placeholder="Consumer No / Mobile No">
+            <div id="searchLoader" class="spinner"></div>
+            <button class="btn-green" onclick="quickSearch()">Search Update Records</button>
+            <div id="quickResultArea" style="display:none; margin-top:10px;">
+                <div class="summary-container">
+                    <table>
+                        <thead><tr><th>Cons No</th><th>Mob</th><th>User</th><th>Date Time</th></tr></thead>
+                        <tbody id="quickSearchBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="noRecordMsg" style="color:red; font-weight:bold; margin-top:8px; display:none;">No Record Found!</div>
+        </div>
+
+        <div style="margin-top:20px; padding-top: 10px; border-top: 1px solid #eee;">
+            <p style="font-size:11px; font-weight:bold; color:#777;">Admin Login Section</p>
+            <input type="password" id="adminPass" placeholder="Password" style="width:60%; padding:8px;">
+            <button class="btn-black" onclick="adminLogin()" style="width:35%; padding:8px;">Login</button>
+        </div>
+        <span style="font-style:italic; color:#888; font-size:11px; margin-top:15px; display:block;">❤️Developed by VINOD</span>
     </div>
 
     <div id="step2" style="display:none;">
         <h3>Enter Consumer No</h3>
-        <input type="number" id="consInput" placeholder="Consumer No.">
+        <input type="number" id="consInput" placeholder="Please 10 Digits Consumer No">
         <div id="loader" class="spinner"></div>
-        <button class="btn-blue" id="searchBtn" onclick="fetchData()">Get Details</button>
+        <button class="btn-blue" onclick="validateAndFetch()">Get Details</button>
         <button class="btn-black" onclick="showStep(1)">Back</button>
     </div>
 
     <div id="step3" style="display:none;">
-        <h3 style="margin-bottom: 5px; color: #000;">Consumer Details</h3>
+        <h3 style="color: #000;">Consumer Details</h3>
         <div id="detailsArea" class="details-list"></div>
-        
         <div id="userActions">
             <button class="btn-blue" onclick="showStep(4)">Update Mobile No</button>
-            <button class="btn-black" onclick="showStep(2)">Back</button>
+            <button class="btn-black" onclick="showStep(1)">Home</button>
         </div>
         <div id="adminActions" style="display:none;">
-            <button class="btn-black" onclick="showStep('adminPanel')">Back</button>
+            <button class="btn-black" onclick="showStep('adminPanel')">Back To Records</button>
         </div>
     </div>
 
     <div id="step4" style="display:none;">
         <h3>Update Information</h3>
         <input type="number" id="newMob" placeholder="10 Digit Mobile No">
-        <input type="text" id="userName" placeholder="User Name (Update By User)">
+        <input type="text" id="userName" placeholder="User Name (Update By)">
         <div id="updateLoader" class="spinner"></div>
-        <button class="btn-blue" id="submitBtn" onclick="submitUpdate()">Update Now</button>
+        <button class="btn-blue" onclick="submitUpdate()">Update Now</button>
         <button class="btn-black" onclick="showStep(3)">Back</button>
     </div>
 
     <div id="step5" style="display:none;">
-        <div class="success-checkmark"><span class="checkmark-icon">✓</span></div>
+        <div class="success-checkmark">✓</div>
         <h2 style="color:#28a745;">Data Saved Successfully</h2>
         <button class="btn-black" onclick="location.reload()">Back to Home</button>
     </div>
 
     <div id="adminPanel" style="display:none;">
         <h3>MNPS Summary Records</h3>
-        <input type="text" id="adminSearch" onkeyup="filterSummary()" placeholder="Search Consumer No...">
-        <div id="adminViewLoader" class="spinner"></div>
+        <input type="text" id="adminSearch" onkeyup="filterSummary()" placeholder="Filter Records...">
         <div class="summary-container">
-            <table id="adminTable">
-                <thead><tr><th>Cons No</th><th>User</th><th>Time</th><th>Action</th></tr></thead>
+            <table id="adminTableMain">
+                <thead><tr><th>Cons No</th><th>Mob</th><th>User</th><th>Date Time</th><th>Action</th></tr></thead>
                 <tbody id="summaryBody"></tbody>
             </table>
         </div>
-        <button class="btn-black" onclick="location.reload()" style="margin-top:10px;">Back</button>
+        <button class="btn-black" onclick="location.reload()">Back</button>
     </div>
 </div>
 
@@ -113,20 +151,61 @@
         document.querySelectorAll('.mobile-card > div').forEach(d => d.style.display='none');
         const target = (s === 'adminPanel') ? 'adminPanel' : 'step'+s;
         document.getElementById(target).style.display = 'block';
-        
         if(s === 3) {
             document.getElementById('userActions').style.display = isAdminViewing ? 'none' : 'block';
             document.getElementById('adminActions').style.display = isAdminViewing ? 'block' : 'none';
         }
     }
 
-    async function fetchData(manualId = null) {
-        const id = manualId || document.getElementById('consInput').value;
-        if(!id) return alert("Pehle Consumer No. bharein");
+    function validateAndFetch() {
+        const id = document.getElementById('consInput').value;
+        if(id.length < 10) { alert("Consumer Not Found!"); return; }
+        fetchData(id);
+    }
 
-        isAdminViewing = manualId ? true : false;
-        const activeLoader = manualId ? 'adminViewLoader' : 'loader';
-        document.getElementById(activeLoader).style.display = 'block';
+    // Quick Search with 10 Digits Validation & Latest Sort
+    async function quickSearch() {
+        const val = document.getElementById('quickSearchInput').value;
+        if(val.length < 10) { 
+            alert("Please Enter 10 Digits Consumer/Mobile No"); 
+            return; 
+        }
+
+        document.getElementById('searchLoader').style.display = 'block';
+        document.getElementById('noRecordMsg').style.display = 'none';
+        document.getElementById('quickResultArea').style.display = 'none';
+
+        try {
+            const res = await fetch(`${SCRIPT_URL}?action=getAll`);
+            let data = await res.json();
+            
+            // Latest Update First Sort (Assuming date format allows sorting)
+            data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            const matches = data.filter(r => r.no == val || r.mob == val);
+            if(matches.length > 0) {
+                let html = "";
+                matches.forEach(r => {
+                    html += `<tr><td>${r.no}</td><td style="color:green;font-weight:bold">${r.mob}</td><td>${r.user}</td><td>${r.date}</td></tr>`;
+                });
+                document.getElementById('quickSearchBody').innerHTML = html;
+                document.getElementById('quickResultArea').style.display = 'block';
+            } else {
+                document.getElementById('noRecordMsg').style.display = 'block';
+            }
+        } catch(e) { alert("Error!"); }
+        finally { document.getElementById('searchLoader').style.display = 'none'; }
+    }
+
+    async function fetchData(id, btnElement = null) {
+        let btnLoader = null;
+        if(btnElement) {
+            btnLoader = btnElement.querySelector('.btn-spinner');
+            btnLoader.style.display = 'inline-block';
+            btnElement.style.opacity = '0.7';
+        } else {
+            document.getElementById('loader').style.display = 'block';
+        }
 
         try {
             const res = await fetch(`${SCRIPT_URL}?consNo=${id}`);
@@ -138,24 +217,31 @@
                     <p><b>Name -</b> <span>${data.name}</span></p>
                     <p><b>Village Name -</b> <span>${data.village}</span></p>
                     <p><b>FOC Name -</b> <span>${data.foc}</span></p>
-                    <p><b>Connection Type -</b> <span>${data.type}</span></p>
                     <p><b>Existing Mobile No -</b> <span>${data.old_mob}</span></p>
-                    <p class="red-text"><b>Last Update Mobile No -</b> <span>${data.last_mob || 'N/A'}</span></p>
+                    <p class="red-text"><b>Last Update Mobile -</b> <span>${data.last_mob || 'N/A'}</span></p>
                     <p class="red-text"><b>Update Time -</b> <span>${data.last_time || 'N/A'}</span></p>
                     <p class="red-text"><b>Update By User -</b> <span>${data.last_user || 'N/A'}</span></p>
                     <p><b>Connection Status -</b> <span style="color:${statusColor}; font-weight:bold;">${data.status}</span></p>
                 `;
                 showStep(3);
             } else { alert("Consumer Not Found!"); }
-        } catch(e) { alert("Server Connection Error!"); }
-        finally { document.getElementById(activeLoader).style.display = 'none'; }
+        } catch(e) { alert("Server Error!"); }
+        finally { 
+            document.getElementById('loader').style.display = 'none'; 
+            if(btnLoader) {
+                btnLoader.style.display = 'none';
+                btnElement.style.opacity = '1';
+            }
+        }
     }
 
     async function submitUpdate() {
-        const id = document.getElementById('consInput').value;
+        const id = document.getElementById('consInput').value || document.getElementById('quickSearchInput').value;
         const mob = document.getElementById('newMob').value;
         const user = document.getElementById('userName').value;
         if(mob.length !== 10) return alert("Please Enter 10 Digits Valid Mobile No");
+        if(!user) return alert("Please Enter The User Name");
+        
         document.getElementById('updateLoader').style.display = 'block';
         try {
             await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({consNo: id, newMob: mob, userName: user}) });
@@ -173,25 +259,34 @@
 
     async function loadAdminData() {
         let tbody = document.getElementById('summaryBody');
-        tbody.innerHTML = "<tr><td colspan='4'>Loading Records...</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='5'>Sorting Latest Records...</td></tr>";
         try {
             const res = await fetch(`${SCRIPT_URL}?action=getAll`);
-            const data = await res.json();
+            let data = await res.json();
+            
+            // Latest First Sort
+            data.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
             tbody.innerHTML = "";
             data.forEach(r => {
                 tbody.innerHTML += `<tr>
                     <td>${r.no}</td>
+                    <td style="color:green;font-weight:bold">${r.mob}</td>
                     <td>${r.user}</td>
                     <td>${r.date}</td>
-                    <td><button class="btn-view" onclick="fetchData('${r.no}')">View</button></td>
+                    <td>
+                        <button class="btn-view" onclick="isAdminViewing=true; fetchData('${r.no}', this)">
+                            View <div class="btn-spinner"></div>
+                        </button>
+                    </td>
                 </tr>`;
             });
-        } catch(e) { tbody.innerHTML = "<tr><td colspan='4'>No Records Found.</td></tr>"; }
+        } catch(e) { tbody.innerHTML = "<tr><td colspan='5'>Error Loading Data.</td></tr>"; }
     }
 
     function filterSummary() {
         let input = document.getElementById("adminSearch").value.toUpperCase();
-        let tr = document.getElementById("adminTable").getElementsByTagName("tr");
+        let tr = document.getElementById("adminTableMain").getElementsByTagName("tr");
         for (let i = 1; i < tr.length; i++) {
             tr[i].style.display = tr[i].innerText.toUpperCase().includes(input) ? "" : "none";
         }
